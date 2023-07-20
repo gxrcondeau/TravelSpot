@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import AuthPage from './screens/AuthPage/AuthPage';
-import { MainView } from './components/style';
+import { useColorScheme, Image } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import { StyledContainer, SafeAreaContainer, StyledMessagebox } from './components/elements/styledContainer';
 import { 
   useFonts, 
   Urbanist_400Regular, 
@@ -9,12 +10,14 @@ import {
   Urbanist_700Bold, 
   Urbanist_500Medium_Italic,
   Urbanist_600SemiBold_Italic,
-  Urbanist_700Bold_Italic
+  Urbanist_700Bold_Italic 
 } from '@expo-google-fonts/urbanist'
-import GreetingPage from './screens/GreetingPage/GreetingPage';
+import Mimi from './assets/images/mimiChan/mimi_4.png';
+import { StyledText } from './components/elements/styledTypography';
+import Greeting from './components/greeting/Greeting';
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState('greeting');
+  const [colorScheme, setColorScheme] = useState(useColorScheme());
 
   let [fontsLoaded] = useFonts({
     Urbanist_400Regular,
@@ -29,14 +32,18 @@ export default function App() {
   if (!fontsLoaded) {
     return null;
   }
-
   return (
-    <MainView>
-      {
-        currentPage === 'greeting' ? <GreetingPage setCurrentPage={setCurrentPage}/>
-        : currentPage === 'login' || currentPage === 'registration' ? <AuthPage basicAction={currentPage} setCurrentPage={setCurrentPage} />
-        : <></>
-      }
-    </MainView>
-    );
+    <SafeAreaContainer theme={colorScheme}>
+      <StatusBar />
+      {/* <StyledContainer theme={colorScheme}>
+        <Image source={Mimi} resizeMethod='resize' style={{width: 100, height: 100}} resizeMode='contain'/>
+        <StyledMessagebox theme={colorScheme}>
+          <StyledText theme={colorScheme}>
+            Hello!
+          </StyledText>
+        </StyledMessagebox>
+      </StyledContainer> */}
+      <Greeting theme={colorScheme}/>
+    </SafeAreaContainer>
+  );
 }
